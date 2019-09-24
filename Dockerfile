@@ -127,6 +127,8 @@ RUN cd /tmp && \
     ./install.sh -s silent.cfg --ignore-signature && \
     cd /opt/intel/openvino/install_dependencies && \
     ./install_openvino_dependencies.sh && \
+    cd /opt/intel/openvino_2019.2.242/deployment_tools/model_optimizer/install_prerequisites && \
+    ./install_prerequisites_onnx.sh && \
     pv -f /opt/intel/openvino/bin/setupvars.sh > /tmp/setupvars.sh && \
     chmod o+x /tmp/setupvars.sh && \
     ldconfig && \
