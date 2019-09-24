@@ -2,7 +2,7 @@
 Building Docker Image Based on PyTorch
 
 ### TensorFlow-GPU-Build-Docker
-Create PyTorch & OpenVINO GPU Docker Image. This build based on nvidia/cuda:10-cudnn7-devel-ubuntu18.04 docker image
+Create PyTorch & OpenVINO GPU Docker Image.
 ```
 Ubuntu Version  -->> Ubuntu 18.04.2 LTS
 
