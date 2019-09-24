@@ -1,6 +1,10 @@
 # PyTorch
 Building Docker Image Based on PyTorch
 
+### Download PyTorch
+
+`https://pypi.org/project/torch/#files`
+
 ### PyTorch-OpenVINO-GPU-Build-Docker
 Create PyTorch & OpenVINO GPU Docker Image.
 ```
