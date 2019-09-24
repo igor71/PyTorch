@@ -1,4 +1,4 @@
-FROM yi/tflow-vnc:python-3.6-pytorch
+FROM yi/tflow-gui:latest
 
 MAINTAINER Igor Rabkin <igor.rabkin@xiaoyi.com>
 
