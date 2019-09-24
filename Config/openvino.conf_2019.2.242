@@ -1,0 +1,20 @@
+### Configuration File For OpenVINO 2.242
+
+/opt/intel/openvino_2019.2.242/opencv/lib
+/opt/intel/opencl
+/opt/intel/openvino_2019.2.242/deployment_tools/inference_engine/external/hddl/lib
+/opt/intel/openvino_2019.2.242/deployment_tools/inference_engine/external/gna/lib
+/opt/intel/openvino_2019.2.242/deployment_tools/inference_engine/external/mkltiny_lnx/lib
+/opt/intel/openvino_2019.2.242/deployment_tools/inference_engine/external/tbb/lib
+/opt/intel/openvino_2019.2.242/deployment_tools/inference_engine/lib/intel64
+/opt/intel/openvino_2019.2.242/openvx/lib:/opt/intel/openvino_2019.2.242/opencv/lib
+/opt/intel/opencl:/opt/intel/openvino_2019.2.242/deployment_tools/inference_engine/external/hddl/lib
+/opt/intel/openvino_2019.2.242/deployment_tools/inference_engine/external/gna/lib
+/opt/intel/openvino_2019.2.242/deployment_tools/inference_engine/external/mkltiny_lnx/lib
+/opt/intel/openvino_2019.2.242/deployment_tools/inference_engine/external/tbb/lib
+/opt/intel/openvino_2019.2.242/deployment_tools/inference_engine/lib/intel64
+/opt/intel/openvino_2019.2.242/openvx/lib
+/opt/intel/openvino_2019.2.242/deployment_tools/inference_engine/external/gna/lib
+/opt/intel/openvino_2019.2.242/deployment_tools/inference_engine/external/mkltiny_lnx/lib
+/opt/intel/openvino_2019.2.242/deployment_tools/inference_engine/external/tbb/lib
+/opt/intel/openvino_2019.2.242/deployment_tools/inference_engine/lib/intel64
