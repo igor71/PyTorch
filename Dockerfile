@@ -81,7 +81,7 @@ RUN python -m pip --no-cache-dir install \
     imageio \
     graphviz \
     tensorboardX \
-    qpth==0.15 && \
+    qpth==0.0.15 && \
     apt-get clean && \ 
     rm -rf /var/lib/apt/lists/*
 	  
