@@ -110,7 +110,8 @@ COPY Config/PyTorch_Check.py /tmp
 ##################################################
 
 ENV LD_LIBRARY_PATH /usr/local/cuda/extras/CUPTI/lib64:$LD_LIBRARY_PATH
-ENV	TORCH_CUDA_ARCH_LIST="5.2 6.0 6.1 7.0+PTX"
+ENV TORCH_CUDA_ARCH_LIST "5.2 6.0 6.1 7.0+PTX"
+ENV TORCH_NVCC_FLAGS "-Xfatbin -compress-all" 
 
 
 #################################################
