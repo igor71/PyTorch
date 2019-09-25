@@ -34,5 +34,5 @@ yi-docker-run
 ```
 cd /tmp
 python PyTorch_Check.py
-python -c "import tensorflow as tf; print(tf.__version__)"
+python -c "import torch as th; print(th.__version__)"
 ```
