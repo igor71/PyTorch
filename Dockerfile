@@ -124,34 +124,9 @@ RUN set -ex; \
 #              Pick up some Python packages                      #
 ################################################################## 
 
-RUN python -m pip --no-cache-dir install \ 
-    networkx \
-    pytest \
-    ipykernel \
-    numpy \
-    pandas \
-    scipy \
-    sklearn \
-    scikit-learn \
-    tqdm \
-    click==6.7 \
-    more_itertools \
-    utils \
-    bs4 \
-    opencv-python \
-    python3-utils \
-    scikit-image \
-    xmltodict \
-    easydict \
-    sacred \
-    tables \
-    glances \
-    gpustat \
-    texttable \
-    albumentations \
-    h5py \
-    cvxpy \
-    urllib3==1.21.1 && \
+RUN curl -SL ftp://jenkins-cloud/pub/Tflow-VNC-Soft/PyTorch/th_requirements.txt -o /tmp/th_requirements.txt && \
+    for tf_req in $(cat /tmp/th_requirements.txt); do pip --no-cache-dir install $th_req; done && \
+    rm -f  /tmp/th_requirements.txt && \
     python -m ipykernel.kernelspec && \
     apt-get clean && \ 
     rm -rf /var/lib/apt/lists/*
