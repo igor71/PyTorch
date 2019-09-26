@@ -158,7 +158,7 @@ RUN curl -OSL ftp://jenkins-cloud/pub/Tflow-VNC-Soft/PyTorch/${PYTORCH_VER} -o $
       ${PYTORCH_VER} \
       torchvision==0.4 \
       torchnet && \
-	  rm -f ${PYTORCH_VER} && \
+      rm -f ${PYTORCH_VER} && \
       apt-get clean && \ 
       rm -rf /var/lib/apt/lists/*
 	  
