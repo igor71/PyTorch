@@ -1,12 +1,12 @@
 # PyTorch
-Building Docker Image Based on PyTorch
+Building Docker Image Based on PyTorch, OpenVino & Caffe v.1.0
 
 ### Download PyTorch
 
 `https://pypi.org/project/torch/#files`
 
 ### PyTorch-OpenVINO-GPU-Build-Docker
-Create PyTorch & OpenVINO GPU Docker Image.
+Create PyTorch, Caffe & OpenVINO GPU Docker Image.
 ```
 Ubuntu Version  -->> Ubuntu 18.04.2 LTS
 
@@ -21,11 +21,11 @@ CUDNN Version  -->> 7.5.0.56
 
 ### Manual Buils steps:
 ```
-git clone --branch=master --depth=1 https://github.com/igor71/PyTorch/
+git clone --branch=PyTorch-OpenVINO-Caffe --depth=1 https://github.com/igor71/PyTorch/
 
 cd PyTorch
 
-docker build -f Dockerfile -t yi/tflow-vnc:python-3.6-pytorch-openvino .
+docker build -f Dockerfile -t yi/tflow-vnc:python-3.6-pytorch-openvino-caffe .
 
 yi-docker-run
 ```
