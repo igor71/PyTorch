@@ -5,7 +5,7 @@ Building Docker Image Based on PyTorch, OpenVino & Caffe v.1.0
 
 `https://pypi.org/project/torch/#files`
 
-### PyTorch-OpenVINO-GPU-Build-Docker
+### PyTorch-OpenVINO-Caffe-GPU-Build-Docker
 Create PyTorch, Caffe & OpenVINO GPU Docker Image.
 ```
 Ubuntu Version  -->> Ubuntu 18.04.2 LTS
