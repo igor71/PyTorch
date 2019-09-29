@@ -76,18 +76,6 @@ RUN ${PY} --version && \
     rm get-pip.py
     
     
-################################################################## 
-#              Pick up some Python packages                      #
-################################################################## 
-
-RUN curl -SL ftp://jenkins-cloud/pub/Tflow-VNC-Soft/PyTorch/th_requirements.txt -o /tmp/th_requirements.txt && \
-    for tf_req in $(cat /tmp/th_requirements.txt); do ${PY} -m pip --no-cache-dir install $th_req; done && \
-    rm -f  /tmp/th_requirements.txt && \
-    ${PY} -m ipykernel.kernelspec && \
-    apt-get clean && \ 
-    rm -rf /var/lib/apt/lists/*
-	
-
 #######################################
 #            Installing cmake         #
 #######################################
@@ -107,6 +95,18 @@ RUN \
     cmake --version && \
     cd ~ && \
     rm -rf temp
+    
+    
+################################################################## 
+#              Pick up some Python packages                      #
+################################################################## 
+
+RUN curl -SL ftp://jenkins-cloud/pub/Tflow-VNC-Soft/PyTorch/th_requirements.txt -o /tmp/th_requirements.txt && \
+    for th_req in $(cat /tmp/th_requirements.txt); do ${PY} -m pip --no-cache-dir install $th_req; done && \
+    rm -f  /tmp/th_requirements.txt && \
+    ${PY} -m ipykernel.kernelspec && \
+    apt-get clean && \ 
+    rm -rf /var/lib/apt/lists/*
     
 
 #########################################
