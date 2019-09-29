@@ -27,8 +27,8 @@ pipeline {
         stage('Build Docker Image ') {
             steps {
                 sh '''#!/bin/bash -xe
-	       		    docker build -f Dockerfile -t yi/tflow-vnc:python-3.6-pytorch-openvino-cafee .
-		            ''' 
+	              docker build -f Dockerfile -t yi/tflow-vnc:python-3.6-pytorch-openvino-caffe .
+		   ''' 
             }
         }
 	    stage('Testing Docker Image') { 
