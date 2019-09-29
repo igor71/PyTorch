@@ -122,13 +122,6 @@ RUN ${PY} -m pip --no-cache-dir install \
     apt-get clean && \ 
     rm -rf /var/lib/apt/lists/*
 	  
-RUN git clone https://github.com/pygraphviz/pygraphviz.git && \
-    cd pygraphviz && \
-    python setup.py install --include-path=/usr/include/graphviz --library-path=/usr/lib/graphviz/ && \
-    rm -rf pygraphviz && \
-    apt-get clean && \ 
-    rm -rf /var/lib/apt/lists/*	  
-
 ARG PYTORCH_VER=torch-1.2.0-cp36-cp36m-manylinux1_x86_64.whl	  
 RUN curl -OSL ftp://jenkins-cloud/pub/Tflow-VNC-Soft/PyTorch/${PYTORCH_VER} -o ${PYTORCH_VER} && \
       ${PY} -m pip pip --no-cache-dir install \
