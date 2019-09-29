@@ -124,7 +124,7 @@ RUN ${PY} -m pip --no-cache-dir install \
 	  
 ARG PYTORCH_VER=torch-1.2.0-cp36-cp36m-manylinux1_x86_64.whl	  
 RUN curl -OSL ftp://jenkins-cloud/pub/Tflow-VNC-Soft/PyTorch/${PYTORCH_VER} -o ${PYTORCH_VER} && \
-      ${PY} -m pip pip --no-cache-dir install \
+      ${PY} -m pip --no-cache-dir install \
       ${PYTORCH_VER} \
       torchvision==0.4 \
       torchnet && \
