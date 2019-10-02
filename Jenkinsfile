@@ -53,7 +53,7 @@ pipeline {
 			
                    echo 'Remove Original Docker Image' 
 	           CURRENT_ID=$(docker images | grep -E '^yi/tflow-vnc.*'python-3.6-pytorch-openvino-caffe'' | awk -e '{print $3}')
-                   docker rmi -f yi/tflow-vnc:python-3.6-pytorch-openvino
+                   docker rmi -f yi/tflow-vnc:python-3.6-pytorch-openvino-caffe
 			
                    echo 'Loading Docker Image'
                    pv -f $WORKSPACE/yi-tflow-vnc-python-3.6-pytorch-openvino-caffe.tar | docker load
