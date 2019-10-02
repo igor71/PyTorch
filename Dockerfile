@@ -242,7 +242,6 @@ RUN echo "$CAFFE_ROOT/build/lib" >> /etc/ld.so.conf.d/caffe.conf && ldconfig
 RUN cd /tmp && \
     git clone --recursive https://github.com/onnx/onnx.git && \
     cd onnx && \
-    python setup.py install && \
     ${PY} setup.py install && \
     cd .. && \
     rm -rf onnx && \
