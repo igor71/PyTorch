@@ -178,6 +178,20 @@ RUN cd /tmp && \
 RUN useradd -m -d /home/openvino -s /bin/bash openvino && \
     echo "openvino:openvino" | chpasswd && \
     sed -i '23 a openvino  ALL=(ALL)  NOPASSWD: ALL' /etc/sudoers
+    
+    
+#######################################
+#            Installing ONNX          #
+#######################################
+
+RUN cd /tmp && \
+    git clone --recursive https://github.com/onnx/onnx.git && \
+    cd onnx && \
+    python setup.py install && \
+    cd .. && \
+    rm -rf onnx && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 	
 	
 #############################################
