@@ -246,7 +246,7 @@ RUN cd /tmp && \
     ${PY} setup.py install && \
     cd .. && \
     rm -rf onnx && \
-    apt-get clean && \
+    apt-get clean
     
 
 ###########################################################
