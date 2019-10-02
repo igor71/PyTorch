@@ -238,3 +238,12 @@ ENV PYCAFFE_ROOT $CAFFE_ROOT/python
 ENV PATH $CAFFE_ROOT/build/tools:$PYCAFFE_ROOT:$PATH
 RUN echo "$CAFFE_ROOT/build/lib" >> /etc/ld.so.conf.d/caffe.conf && ldconfig
     
+
+###########################################################
+#       Installing yi-dockeradmin inside docker image     #
+###########################################################
+RUN ln -s /media/common/IT/YiDockerScripts/yi-dockeradmin /usr/local/bin/yi-dockeradmin && \
+    sed -i '$a\\' /etc/bash.bashrc && \
+    sed -i '$a\###### Adding yi-dockeradmin Function ######\' /etc/bash.bashrc && \
+    sed -i '$a\source /usr/local/bin/yi-dockeradmin\' /etc/bash.bashrc && \
+    sed -i '$a\############################################\' /etc/bash.bashrc
