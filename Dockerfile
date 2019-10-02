@@ -17,6 +17,7 @@ RUN apt-get update
 RUN apt-get install -y --no-install-recommends \
     apt-utils \
     python3-distutils \
+    python3-setuptools \
     python3-dev \
     doxygen \
     cpio \
@@ -187,7 +188,7 @@ RUN useradd -m -d /home/openvino -s /bin/bash openvino && \
 RUN cd /tmp && \
     git clone --recursive https://github.com/onnx/onnx.git && \
     cd onnx && \
-    python setup.py install && \
+    ${PY} setup.py install && \
     cd .. && \
     rm -rf onnx && \
     apt-get clean && \
