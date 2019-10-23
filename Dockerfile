@@ -149,25 +149,25 @@ ENV TORCH_NVCC_FLAGS "-Xfatbin -compress-all"
 #                Installing OpenVINO             #
 ##################################################
 
-ARG VER=l_openvino_toolkit_p_2019.2.242.tgz
-COPY Config/openvino.conf_2019.2.242 /etc/ld.so.conf.d/openvino.conf
+ARG VER=l_openvino_toolkit_p_2019.3.334.tgz
+COPY Config/openvino.conf_2019.3.334 /etc/ld.so.conf.d/openvino.conf
 RUN cd /tmp && \
     curl -OSL ftp://jenkins-cloud/pub/Tflow-VNC-Soft/OpenVINO/${VER} -o ${VER} && \
     pv -f ${VER} | tar xpzf - -C $PWD && \
-    cd l_openvino_toolkit_p_2019.2.242 && \
+    cd l_openvino_toolkit_p_2019.3.334 && \
     sed -i 's/decline/accept/g' silent.cfg && \
     ./install.sh -s silent.cfg --ignore-signature && \
     cd /opt/intel/openvino/install_dependencies && \
     ./install_openvino_dependencies.sh && \
-    cd /opt/intel/openvino_2019.2.242/deployment_tools/model_optimizer/install_prerequisites && \
+    cd /opt/intel/openvino_2019.3.334/deployment_tools/model_optimizer/install_prerequisites && \
     ./install_prerequisites_onnx.sh && \
     pv -f /opt/intel/openvino/bin/setupvars.sh > /tmp/setupvars.sh && \
     chmod o+x /tmp/setupvars.sh && \
     ldconfig && \
     cd /tmp && \
-    rm -rf l_openvino_toolkit_p_2019.2.242* && \
-    cd /opt/intel/openvino_2019.2.242/deployment_tools/inference_engine/samples/python_samples/classification_sample && \
-    sed -i "24 a sys.path.append('/opt/intel/openvino_2019.2.242/python/python3.6/')" classification_sample.py && \
+    rm -rf l_openvino_toolkit_p_2019.3.334* && \
+    cd /opt/intel/openvino_2019.3.334/deployment_tools/inference_engine/samples/python_samples/classification_sample && \
+    sed -i "24 a sys.path.append('/opt/intel/openvino_2019.3.334/python/python3.6/')" classification_sample.py && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
