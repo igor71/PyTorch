@@ -250,6 +250,18 @@ RUN curl -OSL ftp://jenkins-cloud/pub/Tensorflow-1.15.0-10.0-cudnn7-devel-ubuntu
       apt-get clean && \ 
       rm -rf /var/lib/apt/lists/*
       
+      
+#########################################
+#      Add ENV To /root/.bashrc File    #
+#########################################
+
+COPY Config/bashrc /tmp/bashrc
+RUN echo ' ' >> /root/.bashrc && \
+    echo '########## Setting Default ENV's ##########' >> /root/.bashrc && \
+    echo ' ' >> /root/.bashrc && \
+    cat /tmp/bashrc >> /root/.bashrc && \
+    rm -f /tmp/bashrc
+      
 
 ###########################################################
 #       Installing yi-dockeradmin inside docker image     #
