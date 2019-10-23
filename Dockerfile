@@ -102,9 +102,9 @@ RUN \
 #              Pick up some Python packages                      #
 ################################################################## 
 
-RUN curl -SL ftp://jenkins-cloud/pub/Tflow-VNC-Soft/PyTorch/th_requirements.txt -o /tmp/th_requirements.txt && \
-    for th_req in $(cat /tmp/th_requirements.txt); do ${PY} -m pip --no-cache-dir install $th_req; done && \
-    rm -f  /tmp/th_requirements.txt && \
+RUN curl -SL ftp://jenkins-cloud/pub/Tflow-VNC-Soft/PyTorch/th_tf_requirements.txt -o /tmp/th_tf_requirements.txt && \
+    for th_req in $(cat /tmp/th_tf_requirements.txt); do ${PY} -m pip --no-cache-dir install $th_req; done && \
+    rm -f  /tmp/th_tf_requirements.txt && \
     ${PY} -m ipykernel.kernelspec && \
     apt-get clean && \ 
     rm -rf /var/lib/apt/lists/*
@@ -123,11 +123,11 @@ RUN ${PY} -m pip --no-cache-dir install \
     apt-get clean && \ 
     rm -rf /var/lib/apt/lists/*
 	  
-ARG PYTORCH_VER=torch-1.2.0-cp36-cp36m-manylinux1_x86_64.whl	  
+ARG PYTORCH_VER=torch-1.3.0-cp36-cp36m-manylinux1_x86_64.whl	  
 RUN curl -OSL ftp://jenkins-cloud/pub/Tflow-VNC-Soft/PyTorch/${PYTORCH_VER} -o ${PYTORCH_VER} && \
       ${PY} -m pip --no-cache-dir install \
       ${PYTORCH_VER} \
-      torchvision==0.4 \
+      torchvision \
       torchnet && \
       rm -f ${PYTORCH_VER} && \
       apt-get clean && \ 
