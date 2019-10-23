@@ -255,12 +255,14 @@ RUN curl -OSL ftp://jenkins-cloud/pub/Tensorflow-1.15.0-10.0-cudnn7-devel-ubuntu
 #      Add ENV To /root/.bashrc File    #
 #########################################
 
-COPY Config/bashrc /tmp/bashrc
-RUN echo ' ' >> /root/.bashrc && \
-    echo '########## Setting Default ENV's ##########' >> /root/.bashrc && \
-    echo ' ' >> /root/.bashrc && \
-    cat /tmp/bashrc >> /root/.bashrc && \
-    rm -f /tmp/bashrc
+RUN echo ' ' | tee -a /etc/skel/.bashrc /root/.bashrc && \
+    echo '########## Setting Default ENV's ##########' | tee -a /etc/skel/.bashrc /root/.bashrc && \
+    echo ' ' | tee -a /etc/skel/.bashrc /root/.bashrc && \
+    echo 'rm -r /usr/bin/python' | tee -a /etc/skel/.bashrc /root/.bashrc && \
+    echo 'ln -s /usr/bin/python3.6 /usr/bin/python' | tee -a /etc/skel/.bashrc /root/.bashrc && \
+    echo 'export PYTHONPATH=/usr/bin/python3.6' | tee -a /etc/skel/.bashrc /root/.bashrc && \
+    echo ' ' | tee -a /etc/skel/.bashrc /root/.bashrc && \
+    echo '########## End Of Default ENV's ##########' | tee -a /etc/skel/.bashrc /root/.bashrc && \
       
 
 ###########################################################
