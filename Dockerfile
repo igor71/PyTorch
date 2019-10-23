@@ -119,7 +119,7 @@ RUN ${PY} -m pip --no-cache-dir install \
     imageio \
     graphviz \
     tensorboardX \
-    qpth==0.0.15 && \
+    qpth && \
     apt-get clean && \ 
     rm -rf /var/lib/apt/lists/*
 	  
@@ -239,14 +239,17 @@ ENV PATH $CAFFE_ROOT/build/tools:$PYCAFFE_ROOT:$PATH
 RUN echo "$CAFFE_ROOT/build/lib" >> /etc/ld.so.conf.d/caffe.conf && ldconfig
 
 
-RUN cd /tmp && \
-    git clone --recursive https://github.com/onnx/onnx.git && \
-    cd onnx && \
-    ${PY} setup.py install && \
-    cd .. && \
-    rm -rf onnx && \
-    apt-get clean
-    
+###################################
+# Install TensorFlow GPU version. #
+###################################
+
+ARG TF_VER=tensorflow-1.15.0-cp36-cp36m-linux_x86_64.whl  
+RUN curl -OSL ftp://jenkins-cloud/pub/Tensorflow-1.15.0-10.0-cudnn7-devel-ubuntu18.04-Server_19.20/${TF_VER} -o ${TF_VER} && \
+      ${PY} -m pip --no-cache-dir install --upgrade ${TF_VER}
+      && \
+      rm -f ${TF_VER} && \
+      apt-get clean && \ 
+      rm -rf /var/lib/apt/lists/*
 
 ###########################################################
 #       Installing yi-dockeradmin inside docker image     #
