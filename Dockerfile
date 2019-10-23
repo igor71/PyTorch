@@ -123,7 +123,7 @@ RUN ${PY} -m pip --no-cache-dir install \
     apt-get clean && \ 
     rm -rf /var/lib/apt/lists/*
 	  
-ARG PYTORCH_VER=torch-1.3.0-cp36-cp36m-manylinux1_x86_64.whl	  
+ARG PYTORCH_VER=torch-1.2.0-cp36-cp36m-manylinux1_x86_64.whl	  
 RUN curl -OSL ftp://jenkins-cloud/pub/Tflow-VNC-Soft/PyTorch/${PYTORCH_VER} -o ${PYTORCH_VER} && \
       ${PY} -m pip --no-cache-dir install \
       ${PYTORCH_VER} \
@@ -243,8 +243,8 @@ RUN echo "$CAFFE_ROOT/build/lib" >> /etc/ld.so.conf.d/caffe.conf && ldconfig
 # Install TensorFlow GPU version. #
 ###################################
 
-ARG TF_VER=tensorflow-1.15.0-cp36-cp36m-linux_x86_64.whl  
-RUN curl -OSL ftp://jenkins-cloud/pub/Tensorflow-1.15.0-10.0-cudnn7-devel-ubuntu18.04-Server_19.20/${TF_VER} -o ${TF_VER} && \
+ARG TF_VER=tensorflow-1.14.0-cp36-cp36m-linux_x86_64.whl  
+RUN curl -OSL ftp://jenkins-cloud/pub/Tensorflow-1.14.0-10.0-cudnn7-devel-ubuntu18.04-Server_19.20/${TF_VER} -o ${TF_VER} && \
       ${PY} -m pip --no-cache-dir install --upgrade ${TF_VER} && \
       rm -f ${TF_VER} && \
       apt-get clean && \ 
