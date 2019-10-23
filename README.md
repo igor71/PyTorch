@@ -1,5 +1,5 @@
 # PyTorch
-Building Docker Image Based on PyTorch, OpenVino & Caffe v.1.0
+Building Docker Image Based on PyTorch, OpenVino, Caffe v.1.0 & Tensorflow
 
 ### Download PyTorch
 
@@ -21,11 +21,11 @@ CUDNN Version  -->> 7.5.0.56
 
 ### Manual Buils steps:
 ```
-git clone --branch=PyTorch-OpenVINO-Caffe --depth=1 https://github.com/igor71/PyTorch/
+git clone --branch=PyTorch-OpenVINO-Caffe-Tensorflow --depth=1 https://github.com/igor71/PyTorch/
 
 cd PyTorch
 
-docker build -f Dockerfile -t yi/tflow-vnc:python-3.6-pytorch-openvino-caffe .
+docker build -f Dockerfile -t yi/tflow-vnc:python-3.6-pytorch-openvino-caffe-tf .
 
 yi-docker-run
 ```
