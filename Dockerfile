@@ -250,6 +250,7 @@ RUN curl -OSL ftp://jenkins-cloud/pub/Tensorflow-1.15.0-10.0-cudnn7-devel-ubuntu
       rm -f ${TF_VER} && \
       apt-get clean && \ 
       rm -rf /var/lib/apt/lists/*
+      
 
 ###########################################################
 #       Installing yi-dockeradmin inside docker image     #
