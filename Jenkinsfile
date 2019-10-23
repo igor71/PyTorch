@@ -27,7 +27,7 @@ pipeline {
         stage('Build Docker Image ') {
             steps {
                 sh '''#!/bin/bash -xe
-	              docker build -f Dockerfile -t yi/tflow-vnc:python-3.6-pytorch-openvino-caffe .
+	              docker build -f Dockerfile -t yi/tflow-vnc:python-3.6-pytorch-openvino-caffe-tf .
 		   ''' 
             }
         }
@@ -35,8 +35,8 @@ pipeline {
             steps {
                 sh '''#!/bin/bash -xe
 		   echo 'Hello, PyTorch_Docker'
-                   image_id="$(docker images -q yi/tflow-vnc:python-3.6-pytorch-openvino-caffe)"
-                  if [[ "$(docker images -q yi/tflow-vnc:python-3.6-pytorch-openvino-caffe 2> /dev/null)" == "$image_id" ]]; then
+                   image_id="$(docker images -q yi/tflow-vnc:python-3.6-pytorch-openvino-caffe-tf)"
+                  if [[ "$(docker images -q yi/tflow-vnc:python-3.6-pytorch-openvino-caffe-tf 2> /dev/null)" == "$image_id" ]]; then
                      docker inspect --format='{{range $p, $conf := .RootFS.Layers}} {{$p}} {{end}}' $image_id
                   else
                      echo "It appears that current docker image corrapted!!!"
@@ -49,18 +49,18 @@ pipeline {
             steps {
                 sh '''#!/bin/bash -xe
 		   echo 'Saving Docker image into tar archive'
-                   docker save yi/tflow-vnc:python-3.6-pytorch-openvino-caffe | pv | cat > $WORKSPACE/yi-tflow-vnc-python-3.6-pytorch-openvino-caffe.tar
+                   docker save yi/tflow-vnc:python-3.6-pytorch-openvino-caffe-tf | pv | cat > $WORKSPACE/yi-tflow-vnc-python-3.6-pytorch-openvino-caffe-tf.tar
 			
                    echo 'Remove Original Docker Image' 
-	           CURRENT_ID=$(docker images | grep -E '^yi/tflow-vnc.*'python-3.6-pytorch-openvino-caffe'' | awk -e '{print $3}')
-                   docker rmi -f yi/tflow-vnc:python-3.6-pytorch-openvino-caffe
+	           CURRENT_ID=$(docker images | grep -E '^yi/tflow-vnc.*'python-3.6-pytorch-openvino-caffe-tf'' | awk -e '{print $3}')
+                   docker rmi -f yi/tflow-vnc:python-3.6-pytorch-openvino-caffe-tf
 			
                    echo 'Loading Docker Image'
-                   pv -f $WORKSPACE/yi-tflow-vnc-python-3.6-pytorch-openvino-caffe.tar | docker load
-	           docker tag $CURRENT_ID yi/tflow-vnc:python-3.6-pytorch-openvino-caffe
+                   pv -f $WORKSPACE/yi-tflow-vnc-python-3.6-pytorch-openvino-caffe-tf.tar | docker load
+	           docker tag $CURRENT_ID yi/tflow-vnc:python-3.6-pytorch-openvino-caffe-tf
                         
                    echo 'Removing temp archive.'  
-                   rm $WORKSPACE/yi-tflow-vnc-python-3.6-pytorch-openvino-caffe.tar
+                   rm $WORKSPACE/yi-tflow-vnc-python-3.6-pytorch-openvino-caffe-tf.tar
 			
 	           echo 'Removing Basic Docker Image'
 	           docker rmi -f yi/tflow-gui:latest
