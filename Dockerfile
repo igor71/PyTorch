@@ -181,7 +181,7 @@ RUN \
 RUN curl -SL ftp://jenkins-cloud/pub/Tflow-VNC-Soft/PyTorch/th_tf_requirements.txt -o /tmp/th_tf_requirements.txt && \
     for th_req in $(cat /tmp/th_tf_requirements.txt); do pip --no-cache-dir install $th_req; done && \
     rm -f  /tmp/th_tf_requirements.txt && \
-    ipykernel.kernelspec && \
+    python -m ipykernel.kernelspec && \
     apt-get clean && \ 
     rm -rf /var/lib/apt/lists/*
     
