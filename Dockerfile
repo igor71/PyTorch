@@ -11,14 +11,11 @@ ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update
 
 ###################################################################
-#            Installing Dependences PyTorch, Caffe & Python       #
+#            Installing Dependences For PyTorch & Caffe           #
 ###################################################################
 
 RUN apt-get install -y --no-install-recommends \
     apt-utils \
-    python3-distutils \
-    python3-setuptools \
-    python3-dev \
     doxygen \
     cpio \
     libgraphviz-dev \
@@ -61,20 +58,99 @@ rm -rf protobuf-2.6.1 && \
 protoc --version
     
 
-###########################################################
-#            Setting Python3 Alias For All Users          #
-###########################################################
+#################################################
+#     Python 3.6 installations for dev          #
+#################################################
 
-RUN sed -i '$a\\' /etc/bash.bashrc && \
-    sed -i '$a\###### Use Python 3.6 by default ###########\' /etc/bash.bashrc && \
-    sed -i '$a\alias python='python3.6'\' /etc/bash.bashrc && \
-    sed -i '$a\############################################\' /etc/bash.bashrc
+ENV PYTHON_VERSION=3.6.8
+# If this is called "PIP_VERSION", pip explodes with "ValueError: invalid truth value '<VERSION>'"
+ENV PYTHON_PIP_VERSION 19.3.1
+# > At the moment, setting "LANG=C" on a Linux system *fundamentally breaks Python 3*, and that's not OK, fixing...
+# http://bugs.python.org/issue19846
+ENV LANG C.UTF-8
 
-ARG PY=python3.6
-RUN ${PY} --version && \
-    curl -fSsL -O ftp://jenkins-cloud/pub/Develop/get-pip.py && \
-    ${PY} get-pip.py && \
-    rm get-pip.py
+# Ensure local python is preferred over distribution python
+ENV PATH /usr/local/bin:$PATH
+
+# Extra dependencies & python installation
+RUN apt-get update && apt-get install -y --no-install-recommends \
+	tk-dev \
+	libpq-dev \
+	libssl-dev \
+	openssl \
+	libffi-dev \
+	zlib1g-dev \
+	libsqlite3-dev \
+	&& rm -rf /var/lib/apt/lists/*
+
+ENV GPG_KEY 0D96DF4D4110E5C43FBFB17F2D347EA6AA65421D
+
+RUN set -ex \
+	\
+	&& wget -O python.tar.xz "https://www.python.org/ftp/python/${PYTHON_VERSION%%[a-z]*}/Python-$PYTHON_VERSION.tar.xz" \
+	&& wget -O python.tar.xz.asc "https://www.python.org/ftp/python/${PYTHON_VERSION%%[a-z]*}/Python-$PYTHON_VERSION.tar.xz.asc" \
+	&& export GNUPGHOME="$(mktemp -d)" \
+	&& gpg --batch --keyserver hkp://keyserver.ubuntu.com --recv-keys "$GPG_KEY" \
+	&& gpg --batch --verify python.tar.xz.asc python.tar.xz \
+	&& { command -v gpgconf > /dev/null && gpgconf --kill all || :; } \
+	&& rm -rf "$GNUPGHOME" python.tar.xz.asc \
+	&& mkdir -p /usr/src/python \
+	&& tar -xJC /usr/src/python --strip-components=1 -f python.tar.xz \
+	&& rm python.tar.xz \
+	\
+	&& cd /usr/src/python \
+	&& gnuArch="$(dpkg-architecture --query DEB_BUILD_GNU_TYPE)" \
+	&& ./configure \
+		--build="$gnuArch" \
+		--enable-loadable-sqlite-extensions \
+		--enable-shared \
+		--with-system-expat \
+		--with-system-ffi \
+		--without-ensurepip \
+	&& make -j "$(nproc)" \
+	&& make install \
+	&& ldconfig \
+	\
+	&& find /usr/local -depth \
+		\( \
+		\( -type d -a \( -name test -o -name tests \) \) \
+		-o \
+		\( -type f -a \( -name '*.pyc' -o -name '*.pyo' \) \) \
+		\) -exec rm -rf '{}' + \
+	&& rm -rf /usr/src/python \
+	\
+	&& python3 --version
+
+# Make some useful symlinks that are expected to exist
+RUN cd /usr/local/bin \
+        && ln -s idle3 idle \
+	&& ln -s pydoc3 pydoc \
+	&& ln -s python3 python \
+	&& ln -s /usr/local/bin/python3.6 /usr/bin/python3.6.8 \
+	&& ln -s python3-config python-config
+	
+##################################	
+# Installing PIP and Dependences #
+##################################	
+
+RUN set -ex; \
+	\
+	wget -O get-pip.py 'https://bootstrap.pypa.io/get-pip.py'; \
+	\
+	python get-pip.py \
+		--disable-pip-version-check \
+		--no-cache-dir \
+		"pip==$PYTHON_PIP_VERSION" \
+	; \
+	pip --version; \
+	\
+	find /usr/local -depth \
+		\( \
+		\( -type d -a \( -name test -o -name tests \) \) \
+		-o \
+		\( -type f -a \( -name '*.pyc' -o -name '*.pyo' \) \) \
+		\) -exec rm -rf '{}' +; \
+	rm -f get-pip.py 
     
     
 #######################################
@@ -103,9 +179,9 @@ RUN \
 ################################################################## 
 
 RUN curl -SL ftp://jenkins-cloud/pub/Tflow-VNC-Soft/PyTorch/th_tf_requirements.txt -o /tmp/th_tf_requirements.txt && \
-    for th_req in $(cat /tmp/th_tf_requirements.txt); do ${PY} -m pip --no-cache-dir install $th_req; done && \
+    for th_req in $(cat /tmp/th_tf_requirements.txt); do pip --no-cache-dir install $th_req; done && \
     rm -f  /tmp/th_tf_requirements.txt && \
-    ${PY} -m ipykernel.kernelspec && \
+    ipykernel.kernelspec && \
     apt-get clean && \ 
     rm -rf /var/lib/apt/lists/*
     
@@ -114,7 +190,7 @@ RUN curl -SL ftp://jenkins-cloud/pub/Tflow-VNC-Soft/PyTorch/th_tf_requirements.t
 #       Install PyTorch & Dependences    #
 ##########################################
    
-RUN ${PY} -m pip --no-cache-dir install \
+RUN pip --no-cache-dir install \
     ipdb \
     imageio \
     graphviz \
@@ -125,7 +201,7 @@ RUN ${PY} -m pip --no-cache-dir install \
 	  
 ARG PYTORCH_VER=torch-1.2.0-cp36-cp36m-manylinux1_x86_64.whl	  
 RUN curl -OSL ftp://jenkins-cloud/pub/Tflow-VNC-Soft/PyTorch/${PYTORCH_VER} -o ${PYTORCH_VER} && \
-      ${PY} -m pip --no-cache-dir install \
+      pip --no-cache-dir install \
       ${PYTORCH_VER} \
       torchvision \
       torchnet && \
@@ -188,7 +264,7 @@ RUN useradd -m -d /home/openvino -s /bin/bash openvino && \
 RUN cd /tmp && \
     git clone --recursive https://github.com/onnx/onnx.git && \
     cd onnx && \
-    ${PY} setup.py install && \
+    setup.py install && \
     cd .. && \
     rm -rf onnx && \
     apt-get clean && \
@@ -245,24 +321,10 @@ RUN echo "$CAFFE_ROOT/build/lib" >> /etc/ld.so.conf.d/caffe.conf && ldconfig
 
 ARG TF_VER=tensorflow-1.14.0-cp36-cp36m-linux_x86_64.whl  
 RUN curl -OSL ftp://jenkins-cloud/pub/Tensorflow-1.14.0-10.0-cudnn7-devel-ubuntu18.04-Server_19.20/${TF_VER} -o ${TF_VER} && \
-      ${PY} -m pip --no-cache-dir install --upgrade ${TF_VER} && \
+      pip --no-cache-dir install --upgrade ${TF_VER} && \
       rm -f ${TF_VER} && \
       apt-get clean && \ 
       rm -rf /var/lib/apt/lists/*
-      
-      
-#########################################
-#      Add ENV To /root/.bashrc File    #
-#########################################
-
-RUN sed -i '$a\\' /root/.bashrc && \
-    sed -i '$a\########## Setting Default ENV"s ##########\' /root/.bashrc && \
-    sed -i '$a\\' /root/.bashrc && \
-    sed -i '$a\rm -r /usr/bin/python\' /root/.bashrc && \
-    sed -i '$a\ln -s /usr/bin/python3.6 /usr/bin/python\' /root/.bashrc && \
-    sed -i '$a\export PYTHONPATH=/usr/bin/python3.6\' /root/.bashrc && \
-    sed -i '$a\\' /root/.bashrc && \
-    sed -i '$a\########## End Of Default ENV"s ##########\' /root/.bashrc
       
 
 ###########################################################
