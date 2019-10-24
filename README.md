@@ -1,6 +1,7 @@
 # PyTorch
-Building Docker Image Based on PyTorch, OpenVino, Caffe v.1.0 & Tensorflow. This image used aliases for Python 3.6.8.
-Adding symbolic link ln -s /usr/bin/python3.6 /usr/bin/python will break TortoiseHG app.
+Building Docker Image Based on PyTorch, OpenVino, Caffe v.1.0 & Tensorflow. 
+This image used aliases for Python 3.6.8.
+Adding symbolic link: `ln -s /usr/bin/python3.6 /usr/bin/python` will break TortoiseHG app.
 
 ### Download PyTorch
 
