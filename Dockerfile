@@ -81,6 +81,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 	libffi-dev \
 	zlib1g-dev \
 	libsqlite3-dev \
+	libncurses5 \
+	libncurses5-dev \
+	libncursesw5 \
 	&& rm -rf /var/lib/apt/lists/*
 
 ENV GPG_KEY 0D96DF4D4110E5C43FBFB17F2D347EA6AA65421D
@@ -159,13 +162,14 @@ RUN set -ex; \
 
 RUN \
     cd ~ && \
-    version=3.12 && \
-    build=3 && \
+    version=3.16 && \
+    build=1 && \
     mkdir ~/temp && \
     cd temp && \
     wget https://cmake.org/files/v$version/cmake-$version.$build.tar.gz && \
     tar -xzvf cmake-$version.$build.tar.gz && \
     cd cmake-$version.$build && \
+    && sed -i 's/cmake_options="-DCMAKE_BOOTSTRAP=1"/cmake_options="-DCMAKE_BOOTSTRAP=1 -DCMAKE_USE_OPENSSL=ON"/' bootstrap  \
     ./bootstrap && \
     make -j$nc && \
     make install && \
@@ -199,11 +203,11 @@ RUN pip --no-cache-dir install \
     apt-get clean && \ 
     rm -rf /var/lib/apt/lists/*
 	  
-ARG PYTORCH_VER=torch-1.2.0-cp36-cp36m-manylinux1_x86_64.whl	  
+ARG PYTORCH_VER=torch-1.3.1-cp36-cp36m-manylinux1_x86_64.whl	  
 RUN curl -OSL ftp://jenkins-cloud/pub/Tflow-VNC-Soft/PyTorch/${PYTORCH_VER} -o ${PYTORCH_VER} && \
       pip --no-cache-dir install \
       ${PYTORCH_VER} \
-      torchvision==0.4.0 \
+      torchvision==0.4.1 \
       torchnet && \
       rm -f ${PYTORCH_VER} && \
       apt-get clean && \ 
@@ -319,8 +323,8 @@ RUN echo "$CAFFE_ROOT/build/lib" >> /etc/ld.so.conf.d/caffe.conf && ldconfig
 # Install TensorFlow GPU version. #
 ###################################
 
-ARG TF_VER=tensorflow-1.14.0-cp36-cp36m-linux_x86_64.whl  
-RUN curl -OSL ftp://jenkins-cloud/pub/Tensorflow-1.14.0-10.0-cudnn7-devel-ubuntu18.04-Server_19.20/${TF_VER} -o ${TF_VER} && \
+ARG TF_VER=tensorflow-1.15.0-cp36-cp36m-linux_x86_64.whl  
+RUN curl -OSL ftp://jenkins-cloud/pub/Tensorflow-1.15.0-10.0-cudnn7-devel-ubuntu16.04-Server_22/${TF_VER} -o ${TF_VER} && \
       pip --no-cache-dir install --upgrade ${TF_VER} && \
       rm -f ${TF_VER} && \
       apt-get clean && \ 
