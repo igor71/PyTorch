@@ -2,6 +2,21 @@ FROM yi/tflow-gui:latest
  
 MAINTAINER Igor Rabkin <igor.rabkin@xiaoyi.com>
 
+###################################################################
+#            Installing Dependences For PyTorch & Caffe           #
+###################################################################
+
+RUN apt-get install -y --no-install-recommends \
+    apt-utils \
+    doxygen \
+    cpio \
+    mlocate \
+    screen \
+    sudo \
+    pv && \	
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
 
 #################################################
 #     Python 3.6 installations for dev          #
