@@ -6,7 +6,7 @@ MAINTAINER Igor Rabkin <igor.rabkin@xiaoyi.com>
 #            Installing Dependences For PyTorch & Caffe           #
 ###################################################################
 
-RUN apt-get install -y --no-install-recommends \
+RUN apt-get update && apt-get install -y --no-install-recommends \
     apt-utils \
     doxygen \
     cpio \
